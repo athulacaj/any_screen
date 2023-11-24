@@ -17,8 +17,40 @@ Add the following line to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  any_screen: ^1.0.0
+  any_screen: ^0.1.0
 ```
+
+## AnyScreenDefaultConfig.setConfig
+
+`AnyScreenDefaultConfig.setConfig` is a method that allows you to set the default configuration for screen sizes in your application.
+
+### Usage
+
+```dart
+void main() {
+  // if you want to change default config
+  AnyScreenDefaultConfig.setConfig(
+    xs: 320,
+    sm: 480,
+    md: 768,
+    lg: 1024,
+    xl: 1366,
+  );
+  runApp(MyApp());
+}
+```
+
+In the above example, `AnyScreenDefaultConfig.setConfig` is called with five parameters: `xs`, `sm`, `md`, `lg`, and `xl`. Each parameter represents a different screen size and accepts a value that will be used as the breakpoint for that screen size.
+
+- `xs` is for extra small screens.
+- `sm` is for small screens.
+- `md` is for medium-sized screens.
+- `lg` is for large screens.
+- `xl` is for extra large screens.
+
+The `AnyScreenDefaultConfig.setConfig` method should be called before `runApp` in your `main` function.
+
+**Note:** If you want to change the configuration for a specific component, you can pass a configuration of type `AnyScreenConfig`.
 
 
 ## ResponsiveBuilder
@@ -94,11 +126,6 @@ Responsive(
 
 In the above example, `Responsive` takes five parameters: `xs`, `sm`, `md`, `lg`, and `xl`. Each parameter represents a different screen size and accepts a widget that will be rendered when the screen size matches the parameter.
 
-- `xs` is for extra small screens.
-- `sm` is for small screens.
-- `md` is for medium-sized screens.
-- `lg` is for large screens.
-- `xl` is for extra large screens.
 
 The `Responsive` widget will automatically render the appropriate widget based on the current screen size.
 

@@ -29,9 +29,8 @@ class ResponsiveToggle extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
       builder: (context, screenType, ResponsiveWidgetSize widgetSize) {
-        if (showAfter != null && showAfter!.index <= screenType.index) {
-          return child;
-        } else if (showOnly != null && showOnly!.contains(screenType)) {
+        if (showAfter != null &&
+            _orderList.indexOf(showAfter!) < _orderList.indexOf(screenType)) {
           return child;
         }
         return const SizedBox();
@@ -40,3 +39,11 @@ class ResponsiveToggle extends StatelessWidget {
     );
   }
 }
+
+const List<ScreenType> _orderList = [
+  ScreenType.xs,
+  ScreenType.sm,
+  ScreenType.md,
+  ScreenType.lg,
+  ScreenType.xl
+];
