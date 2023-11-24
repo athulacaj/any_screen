@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:any_screen/src/config.dart';
-import 'package:any_screen/src/functions/get_screen_type_from_width.dart';
-import 'package:any_screen/src/models/responsive_widget_size.dart';
-import 'package:any_screen/src/models/screen_types.dart';
+part of any_screen;
 
 /// Responsive widget that builds itself based on the parent widget's size.
 /// This widget is based on the width of the parent widget.

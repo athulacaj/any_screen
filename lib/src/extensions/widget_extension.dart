@@ -13,17 +13,17 @@ part of any_screen;
 ///   showAfter: ScreenType.xs,
 /// );
 /// ```
-extension AnyWidgetExtension on Widget {
-  responsiveToggle({
-    List<ScreenType>? showOnly,
-    AnyScreenConfig? config,
-    ScreenType? showAfter,
-  }) {
-    return ResonsiveToggle(
-      showOnly: showOnly,
-      config: config,
-      showAfter: showAfter,
-      child: this,
-    );
-  }
-}
+// extension AnyWidgetExtension on Widget {
+//   responsiveToggle({
+//     List<ScreenType>? showOnly,
+//     AnyScreenConfig? config,
+//     ScreenType? showAfter,
+//   }) {
+//     return ResonsiveToggle(
+//       showOnly: showOnly,
+//       config: config,
+//       showAfter: showAfter,
+//       child: this,
+//     );
+//   }
+// }

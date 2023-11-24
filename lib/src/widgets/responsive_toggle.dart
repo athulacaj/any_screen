@@ -1,8 +1,4 @@
-import 'package:any_screen/src/config.dart';
-import 'package:any_screen/src/models/responsive_widget_size.dart';
-import 'package:any_screen/src/models/screen_types.dart';
-import 'package:flutter/material.dart';
-import 'responsive_builder.dart';
+part of any_screen;
 
 /// Responsive widget that builds itself based on the parent widget's size.
 /// This widget is based on the width of the parent widget.
@@ -10,8 +6,8 @@ import 'responsive_builder.dart';
 /// This widget is useful for creating responsive UIs that needs to hide or show widgets based on the available screen size.
 /// can pass [showOnly] to show the widget only on the specified screen sizes or pass [showAfter] to show the widget after the specified screen size.
 /// if you provide [showOnly] and [showAfter], [showOnly] will be ignored.
-class ResonsiveToggle extends StatelessWidget {
-  const ResonsiveToggle(
+class ResponsiveToggle extends StatelessWidget {
+  const ResponsiveToggle(
       {super.key,
       required this.child,
       this.config,

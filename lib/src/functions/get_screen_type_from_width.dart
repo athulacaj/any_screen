@@ -1,5 +1,4 @@
-import 'package:any_screen/src/config.dart';
-import 'package:any_screen/src/models/screen_types.dart';
+part of any_screen;
 
 ScreenType getScreenTypeFromWidth(double width, AnyScreenConfig? config) {
   config ??= AnyScreenConfig.defaultConfig();

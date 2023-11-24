@@ -1,3 +1,5 @@
+part of any_screen;
+
 class AnyScreenDefaultConfig {
   static double _xs = 320;
   static double _sm = 480;
