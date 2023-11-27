@@ -86,7 +86,7 @@ class MyApp extends StatelessWidget {
                 //   ),
                 // ),
                 ResponsiveToggle(
-                  showAfter: ScreenType.sm,
+                  showAfter: ScreenType.md,
                   child: Container(
                     color: Colors.black,
                     height: 100,

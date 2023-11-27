@@ -1,3 +1,9 @@
 part of any_screen;
 
-enum ScreenType { xs, sm, md, lg, xl }
+enum ScreenType {
+  xs,
+  sm,
+  md,
+  lg,
+  xl;
+}
