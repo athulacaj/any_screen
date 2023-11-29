@@ -8,15 +8,15 @@ part of any_screen;
 /// This widget is useful for creating responsive UIs that change their layout or appearance
 /// based on the available screen size. For example, you might create different
 /// layouts for large screens, small screens, and landscape orientation.
-/// [xs] is the widget that will be rendered when the screen width is less than 576px.
-/// [xs] is the required parameter. if you don't provider other parameters, [xs] will be rendered on all screen sizes.
-/// The order of the parameters is [xs], [sm], [md], [lg], [xl].
-/// if you provide [xs] and md, [xs] willeb rendered for [sm] and [xs] screen sizes and [md] will be rendered for [md], [lg], and [xl] screen sizes.
+/// [builder] will act as xs also
+/// [builder] is the required parameter. if you don't provider other parameters, [builder] will be rendered on all screen sizes.
+/// The order of the parameters is [builder], [sm], [md], [lg], [xl].
+/// if you provide [builder] and md, [builder] willeb rendered for [sm] and [builder] screen sizes and [md] will be rendered for [md], [lg], and [xl] screen sizes.
 /// you can change the default screen sizes by setting [AnyScreenDefaultConfig] or passing [AnyScreenConfig].
 class Responsive extends StatelessWidget {
   const Responsive({
     super.key,
-    required this.xs,
+    required this.builder,
     this.sm,
     this.md,
     this.lg,
@@ -24,32 +24,35 @@ class Responsive extends StatelessWidget {
     this.config,
   });
 
-  final Widget xs;
-  final Widget? sm;
-  final Widget? md;
-  final Widget? lg;
-  final Widget? xl;
+  final Widget Function(BuildContext context) builder;
+  final Widget Function(BuildContext context)? sm;
+  final Widget Function(BuildContext context)? md;
+  final Widget Function(BuildContext context)? lg;
+  final Widget Function(BuildContext context)? xl;
   final AnyScreenConfig? config;
+  // builer
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
       builder:
           (context, ScreenType screenType, ResponsiveWidgetSize widgetSize) {
+        late Widget Function(BuildContext context) returnWidget;
         switch (screenType) {
           case ScreenType.xl:
-            return xl ?? lg ?? md ?? sm ?? xs;
+            returnWidget = xl ?? lg ?? md ?? sm ?? builder;
           case ScreenType.lg:
-            return lg ?? xl ?? md ?? sm ?? xs;
+            returnWidget = lg ?? xl ?? md ?? sm ?? builder;
           case ScreenType.md:
-            return md ?? lg ?? sm ?? xs;
+            returnWidget = md ?? lg ?? sm ?? builder;
           case ScreenType.sm:
-            return sm ?? xs;
+            returnWidget = sm ?? builder;
           case ScreenType.xs:
-            return sm ?? xs;
+            returnWidget = sm ?? builder;
           default:
-            return xs;
+            returnWidget = builder;
         }
+        return returnWidget(context);
       },
       config: config,
     );

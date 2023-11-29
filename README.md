@@ -62,17 +62,18 @@ The `AnyScreenDefaultConfig.setConfig` method should be called before `runApp` i
 ```dart
 ResponsiveBuilder(
   builder: (context, screenType, widgetSize) {
+    // note: can use screeType.index to get the index of the current screen type.
     if (screenType == ScreenType.md) {
       return Container(
         color: Colors.red,
         height: 100,
-        width: widgetSize.pWidth(50),
+        width: widgetSize.pW(50),
       );
     }
     return Container(
       color: Colors.red,
       height: 100,
-      width: widgetSize.pWidth(100),
+      width: widgetSize.pW(100),
     );
   },
 ),
@@ -86,7 +87,6 @@ In the above example, `ResponsiveBuilder` uses a builder function that takes thr
 
 The builder function returns a `Container` widget with different widths based on the `screenType`. If the screen type is `ScreenType.md`, it returns a container with a width of 50% of the screen width. Otherwise, it returns a container with a width of 100% of the screen width.
 
-GitHub Copilot: Sure, here's a draft for the `Responsive` component from your `any_screen` package.
 
 ## Responsive
 
@@ -96,27 +96,27 @@ GitHub Copilot: Sure, here's a draft for the `Responsive` component from your `a
 
 ```dart
 Responsive(
-  xs: Container(
+  builder: (context) => Container(
     color: Colors.red,
-    height: 100,
-    width: 100,
+    height: 50.pW,
+    width: 100.pH,
   ),
-  sm: Container(
+  sm: (context) => Container(
     color: Colors.green,
     height: 100,
     width: 100,
   ),
-  md: Container(
+  md: (context) => Container(
     color: Colors.blue,
     height: 100,
     width: 100,
   ),
-  lg: Container(
+  lg: (context) => Container(
     color: Colors.yellow,
     height: 100,
     width: 100,
   ),
-  xl: Container(
+  xl: (context) => Container(
     color: Colors.purple,
     height: 100,
     width: 100,
@@ -124,32 +124,149 @@ Responsive(
 ),
 ```
 
-In the above example, `Responsive` takes five parameters: `xs`, `sm`, `md`, `lg`, and `xl`. Each parameter represents a different screen size and accepts a widget that will be rendered when the screen size matches the parameter.
+In the above example, `Responsive` takes five parameters: `xs`, `sm`, `md`, `lg`, and `xl`. Each parameter represents a different screen size and accepts a widget function that will be rendered when the screen size matches the parameter.
+
+**Note:** Can use `pW` and `pH` to get percentage-based dimensions relative to the parent size.
 
 
 The `Responsive` widget will automatically render the appropriate widget based on the current screen size.
 
+
+## ResponsiveGrid
+
+`ResponsiveGrid` is a widget that allows you to create a responsive grid layout in Flutter. It automatically adjusts the number of columns based on the screen size.
+
+### Usage
+
+```dart
+SizedBox(
+  height: 300,
+  child: ResponsiveGrid(
+    mainAxisSpacing: 10,
+    crossAxisSpacing: 10,
+    xs: 1,
+    md: 3,
+    lg: 4,
+    itemHeight: 30,
+    childrenBuilder: () => [
+      Container(
+        color: Colors.red,
+        height: 400,
+        width: 50,
+      ),
+      Container(
+        color: Colors.blue,
+        height: 100,
+        width: 100,
+      ),
+      Container(
+        color: Colors.green,
+        height: 100,
+        width: 100,
+      ),
+      Container(
+        color: Colors.amber,
+        height: 100,
+        width: 100,
+      ),
+    ],
+  ),
+)
+```
+
+In this example, the `ResponsiveGrid` will display 1 column for extra small screens, 3 columns for medium screens, and 4 columns for large screens. The height of each item is set to 30. The `mainAxisSpacing` and `crossAxisSpacing` are set to 10, which means there will be a 10-pixel gap between each item vertically and horizontally.
+
+### Properties
+
+- `mainAxisSpacing`: The space between each item along the main axis.
+- `crossAxisSpacing`: The space between each item along the cross axis.
+- `xs`: The number of columns for extra small screens.
+- `md`: The number of columns for medium screens.
+- `lg`: The number of columns for large screens.
+- `itemHeight`: The height of each item.
+- `childrenBuilder`: A function that returns the widgets to display in the grid.
+
+## ResponsiveWrap
+
+`ResponsiveWrap` is a widget that allows you to create a responsive layout in Flutter. It automatically adjusts the layout based on the screen size.
+
+### Usage
+
+```dart
+ResponsiveWrap(
+  items: [
+    ResponsiveWrapChild(
+      xs: 12,
+      md: 6,
+      lg: 4,
+      child: Container(
+        color: Colors.red,
+        height: 100,
+        width: 100,
+      ),
+    ),
+    ResponsiveWrapChild(
+      xs: 12,
+      md: 6,
+      lg: 4,
+      child: Container(
+        color: Colors.blue,
+        height: 100,
+        width: 100,
+      ),
+    ),
+    ResponsiveWrapChild(
+      xs: 12,
+      lg: 4,
+      child: Container(
+        color: Colors.green,
+        height: 100,
+        width: 100,
+      ),
+    ),
+    ResponsiveWrapChild(
+      xs: 12,
+      child: Container(
+        color: Colors.amber,
+        height: 100,
+        width: 100,
+      ),
+    ),
+  ],
+  colCount: 12,
+)
+```
+
+In this example, the `ResponsiveWrap` will adjust the layout based on the screen size. The `xs`, `md`, and `lg` properties of `ResponsiveWrapChild` specify the number of columns the child should span on extra small, medium, and large screens, respectively. The `colCount` property of `ResponsiveWrap` specifies the total number of columns in the layout.
+
+### Properties
+
+- `items`: The widgets to display in the layout. Each widget is wrapped in a `ResponsiveWrapChild`.
+- `colCount`: The total number of columns in the layout.
+
 ## ResponsiveToggle
 
-`ResponsiveToggle` is a widget that allows you to conditionally render a widget based on the screen size.
+`ResponsiveToggle` is a widget that allows you to conditionally display a widget based on the screen size.
 
 ### Usage
 
 ```dart
 ResponsiveToggle(
-  showAfter: ScreenType.md,
-  child: Container(
-    color: Colors.green,
-    height: 100,
-    width: 100,
-  ),
-),
+  builder: (context) {
+    return Container(
+      color: Colors.red,
+      height: 100,
+      width: 100,
+      child: const Text('show this widget below the md screen size'),
+    );
+  },
+  showBefore: ScreenType.md,
+)
 ```
 
-In the above example, `ResponsiveToggle` takes two parameters: `showAfter` and `child`.
+In this example, the `ResponsiveToggle` will display the widget returned by the `builder` function only on screens smaller than medium (`md`).
 
-- `showAfter` is an enum that represents the screen size after which the child widget will be rendered. It can be `ScreenType.md` for medium-sized screens, and other values for different screen sizes.
-- `child` is the widget that will be rendered when the screen size is larger than the `showAfter` value.
+### Properties
 
-In this case, the `Container` widget will only be rendered on screens larger than `ScreenType.md`.
-
+- `builder`: A function that returns the widget to display.
+- `showBefore`: The screen size before which the widget should be displayed.

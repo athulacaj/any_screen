@@ -21,9 +21,19 @@ class ResponsiveBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      final width = MediaQuery.of(context).size.width;
+      /// size of the parent widget
+      final Size size = MediaQuery.of(context).size;
+      final width = size.width;
+      final Size parentSize = Size(
+        constraints.maxWidth == double.infinity
+            ? size.width
+            : constraints.maxWidth,
+        constraints.maxHeight == double.infinity
+            ? size.height
+            : constraints.maxHeight,
+      );
       final screenType = getScreenTypeFromWidth(width, config);
-      final widgetSize = ResponsiveWidgetSize(context);
+      final widgetSize = ResponsiveWidgetSize(parentSize, context);
       return builder(context, screenType, widgetSize);
     });
   }

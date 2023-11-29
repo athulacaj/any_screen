@@ -1,29 +1,35 @@
 part of any_screen;
 
-/// Extension method on the [Widget] class that adds a responsive toggle functionality.
-///
-/// The [responsiveToggle] method allows you to toggle the visibility of a widget based on the screen type.
-/// In  [showOnly] You can specify a list of [ScreenType] values to show the widget only on those screen types.
-/// The [showAfter] parameter is a [ScreenType] value that specifies the screen type after which the widget should be shown.
-///
-/// Example usage:
-/// ```dart
-/// Container().responsiveToggle(
-///   config: AnyScreenConfig(),
-///   showAfter: ScreenType.xs,
-/// );
-/// ```
-// extension AnyWidgetExtension on Widget {
-//   responsiveToggle({
-//     List<ScreenType>? showOnly,
-//     AnyScreenConfig? config,
-//     ScreenType? showAfter,
-//   }) {
-//     return ResonsiveToggle(
-//       showOnly: showOnly,
-//       config: config,
-//       showAfter: showAfter,
-//       child: this,
-//     );
-//   }
-// }
+extension AnyScreenWidgetExtension on Widget {
+  /// Show the widget basedon the condition.
+  /// if you provide [showOnly] and [showAfter], [showOnly] will be ignored.
+  /// [showAfter] will show the widget after the specified screen size.
+  /// [showOnly] will show the widget only on the specified screen sizes.
+  Widget show({
+    ScreenType? showAfter,
+    ScreenType? showBefore,
+    List<ScreenType>? showOnly,
+    AnyScreenConfig? config,
+  }) {
+    ResponsiveWidgetSize? instance = ResponsiveWidgetSize.instance;
+
+    if (instance == null) {
+      throw Exception(
+          'Use ` .show() ` method inside only in child widgets of any any_screen widgets');
+    }
+    final screenType =
+        getScreenTypeFromWidth(instance.screenSize.width, config);
+
+    if (showBefore != null && screenType.index < showBefore.index) {
+      return this;
+    } else if (showAfter != null && screenType.index > showAfter.index) {
+      return this;
+    } else if (showAfter == null &&
+        showBefore == null &&
+        showOnly != null &&
+        showOnly.contains(screenType)) {
+      return this;
+    }
+    return const SizedBox();
+  }
+}

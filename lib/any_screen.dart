@@ -2,6 +2,7 @@
 
 library any_screen;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter/material.dart';
@@ -12,4 +13,7 @@ part 'src/models/screen_types.dart';
 part 'src/widgets/responsive_builder.dart';
 part 'src/widgets/responsive.dart';
 part 'src/extensions/widget_extension.dart';
+part 'src/widgets/responsive_grid.dart';
+part 'src/extensions/int_extension.dart';
+part 'src/widgets/responsive_wrap.dart';
 part 'src/widgets/responsive_toggle.dart';

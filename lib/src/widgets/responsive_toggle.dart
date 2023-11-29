@@ -9,9 +9,10 @@ part of any_screen;
 class ResponsiveToggle extends StatelessWidget {
   const ResponsiveToggle(
       {super.key,
-      required this.child,
+      required this.builder,
       this.config,
       this.showAfter,
+      this.showBefore,
       this.showOnly = const [
         ScreenType.xs,
         ScreenType.sm,
@@ -20,21 +21,25 @@ class ResponsiveToggle extends StatelessWidget {
         ScreenType.xl
       ]});
 
-  final Widget child;
+  final Widget Function(BuildContext context) builder;
   final List<ScreenType>? showOnly;
   final ScreenType? showAfter;
+  final ScreenType? showBefore;
   final AnyScreenConfig? config;
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
       builder: (context, screenType, ResponsiveWidgetSize widgetSize) {
-        if (showAfter != null && screenType.index > showAfter!.index) {
-          return child;
+        if (showBefore != null && screenType.index < showBefore!.index) {
+          return builder(context);
+        } else if (showAfter != null && screenType.index > showAfter!.index) {
+          return builder(context);
         } else if (showAfter == null &&
+            showBefore == null &&
             showOnly != null &&
             showOnly!.contains(screenType)) {
-          return child;
+          return builder(context);
         }
         return const SizedBox();
       },

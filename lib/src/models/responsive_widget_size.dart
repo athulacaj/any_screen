@@ -1,28 +1,50 @@
 part of any_screen;
 
 /// Class that holds the responsive width and height of the parent widget.
-/// It has a few useful methods like [pWidth],[pHeight].
-/// [pWidth] returns the width of the parent widget based on the percentage you provide.
-/// [pHeight] returns the height of the parent widget based on the percentage you provide.
+/// It has a few useful methods like [pW],[pH].
+/// [pW] returns the width of the parent widget based on the percentage you provide.
+/// [pH] returns the height of the parent widget based on the percentage you provide.
 class ResponsiveWidgetSize {
-  ResponsiveWidgetSize(this.context) {
-    size = MediaQuery.of(context).size;
-  }
-  final BuildContext context;
-  late Size size;
+  /// last instance of [ResponsiveWidgetSize]
+  static ResponsiveWidgetSize? _instance;
+  static get instance => _instance;
 
-  get width => size.width;
-  get height => size.height;
+  /// returns the last instance of [ResponsiveWidgetSize]
+  factory ResponsiveWidgetSize(Size parentSize, BuildContext context) {
+    _instance = ResponsiveWidgetSize._(parentSize, context);
+    return _instance!;
+  }
+  ResponsiveWidgetSize._(this._parentSize, this.context);
+
+  final Size _parentSize;
+  final BuildContext context;
+
+  get parentSize => _parentSize;
+  get screenSize => MediaQuery.of(context).size;
 
   /// returns the width of the parent widget based on the percentage you provide.
-  double pWidth(double percent) {
+  /// [percent] is the percentage of the parent widget's width.
+  double pW(int percent) {
     assert(percent >= 0 && percent <= 100);
-    return size.width * percent / 100;
+    return _parentSize.width * percent / 100;
   }
 
   /// returns the height of the parent widget based on the percentage you provide.
-  double pHeight(double percent) {
+  /// [percent] is the percentage of the parent widget's height.
+  double pH(int percent) {
     assert(percent >= 0 && percent <= 100);
-    return size.height * percent / 100;
+    return _parentSize.height * percent / 100;
+  }
+
+  /// returns the width of the screen based on the percentage you provide.
+  /// [percent] is the percentage of the screen's width.
+  double vW(int percent) {
+    return screenSize.width * percent / 100;
+  }
+
+  /// returns the height of the screen based on the percentage you provide.
+  /// [percent] is the percentage of the screen's height.
+  double vH(int percent) {
+    return screenSize.height * percent / 100;
   }
 }
